@@ -12,6 +12,7 @@ import random
 import collections
 import math
 import time
+import glob
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--input_dir", help="path to folder containing images")
@@ -794,6 +795,8 @@ def main():
 
                 if should(a.save_freq):
                     print("saving model")
+                    old_save = glob.glob(os.path.join(a.output_dir, "model-*"))
+                    [os.remove(f) for f in old_save]
                     saver.save(sess, os.path.join(a.output_dir, "model"), global_step=sv.global_step)
 
                 if sv.should_stop():
